@@ -18,8 +18,8 @@ targets:
         TARGETED_DEVICE_FAMILY: "1"
     sources:
       - path: MindfulnessPractice/Sources
-      - path: MindfulnessPractice/Resources/MindfulnessPractice.mp4
-      - path: MindfulnessPractice/Resources/practice-mountain.jpg
+      - path: MindfulnessPractice/Resources/MindfulnessPractice.m4a
+      - path: MindfulnessPractice/Resources/practice-zen.jpg
       - path: MindfulnessPractice/Resources/transcript.txt
       - path: MindfulnessPractice/Resources/Assets.xcassets
     info:

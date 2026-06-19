@@ -5,12 +5,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## What this app is
 
 A native iOS (iPhone) SwiftUI app for practicing mindfulness. It presents a single
-guided meditation — "Awareness of the Breath" — that plays a bundled audio/video track
-(`MindfulnessPractice.mp4`, ~265 MB, the screen recording with the spoken voiceover) behind
-a still image, with a scrubber and Start / Pause / Stop transport controls. The spoken
-narration is transcribed in `MindfulnessPractice/Resources/transcript.txt` (timestamps →
-guidance text). There is no login, no backend, and no data collection — everything ships in
-the bundle and plays locally.
+guided meditation — "Awareness of the Breath" — that plays a bundled audio track
+(`MindfulnessPractice.m4a`, ~1 MB, the soothing spoken voiceover) behind a still zen-garden
+image (`practice-zen.jpg`), with a scrubber and Start / Pause / Stop transport controls. The
+narration is generated from `MindfulnessPractice/Resources/transcript.txt` (timestamps →
+guidance text) with the neural on-device TTS [kyutai `pocket-tts`](https://github.com/kyutai-labs/pocket-tts)
+and assembled to match the cue timings. There is no login, no backend, and no data collection —
+everything ships in the bundle and plays locally.
 
 ## Build & run
 

@@ -14,11 +14,11 @@ final class PracticePlayerViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
 
     init() {
-        let bundledVideo = Bundle.main.url(forResource: "MindfulnessPractice", withExtension: "mp4")
-        let folderVideo = Bundle.main.url(forResource: "MindfulnessPractice", withExtension: "mp4", subdirectory: "Resources")
+        let bundledAudio = Bundle.main.url(forResource: "MindfulnessPractice", withExtension: "m4a")
+        let folderAudio = Bundle.main.url(forResource: "MindfulnessPractice", withExtension: "m4a", subdirectory: "Resources")
 
-        guard let url = bundledVideo ?? folderVideo else {
-            fatalError("MindfulnessPractice.mp4 is missing from the app bundle.")
+        guard let url = bundledAudio ?? folderAudio else {
+            fatalError("MindfulnessPractice.m4a is missing from the app bundle.")
         }
 
         let item = AVPlayerItem(url: url)

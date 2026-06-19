@@ -16,8 +16,8 @@ no data collection.
 ![XcodeGen](https://img.shields.io/badge/XcodeGen-project.yml-2C3E50)
 
 - **Swift 6 / SwiftUI** — single-screen declarative UI
-- **AVFoundation** — `AVPlayer` driving the bundled guided-session track, with a
-  `.spokenAudio` audio session that ducks other audio
+- **AVFoundation** — `AVPlayer` driving the bundled guided-session audio (`MindfulnessPractice.m4a`),
+  with a `.spokenAudio` audio session that ducks other audio
 - **XcodeGen** — the Xcode project is generated from [`project.yml`](project.yml)
 
 ## Features
@@ -56,10 +56,11 @@ xcodebuild -project MindfulnessPractice.xcodeproj \
   -destination 'platform=iOS Simulator,name=iPhone 17' build
 ```
 
-> **Note:** the guided-session media track (`MindfulnessPractice.mp4`) is **not** committed —
-> it exceeds GitHub's 100 MB file limit and is kept locally. Drop your own
-> `MindfulnessPractice/Resources/MindfulnessPractice.mp4` in before building, or wire in your
-> own audio source in `PracticePlayerViewModel`.
+> **Audio:** the guided narration (`MindfulnessPractice.m4a`, ~1 MB) is committed. It was
+> generated from [`transcript.txt`](MindfulnessPractice/Resources/transcript.txt) with the
+> neural on-device TTS [kyutai `pocket-tts`](https://github.com/kyutai-labs/pocket-tts) (voice
+> "alba"), timed to the cue timestamps and softened (warm EQ + gentle reverb) for a soothing,
+> unhurried delivery.
 
 ## App Store submission
 

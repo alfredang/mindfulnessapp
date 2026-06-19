@@ -65,7 +65,7 @@ struct PracticeView: View {
 
     private var practiceImage: some View {
         Group {
-            if let url = Bundle.main.url(forResource: "practice-mountain", withExtension: "jpg"),
+            if let url = Bundle.main.url(forResource: "practice-zen", withExtension: "jpg"),
                let image = UIImage(contentsOfFile: url.path) {
                 Image(uiImage: image)
                     .resizable()

@@ -9,24 +9,24 @@
 /* Begin PBXBuildFile section */
 		1BFD926BACB01103AB50C793 /* PracticePlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC0A126CBE12C3FB013BF2B /* PracticePlayerViewModel.swift */; };
 		25C682043697B3EB117788D6 /* transcript.txt in Resources */ = {isa = PBXBuildFile; fileRef = 42BF2061D2C251A524F11E6A /* transcript.txt */; };
-		58D37F5004586B81D5E48806 /* practice-mountain.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 30746B68F689EC8D4CC17204 /* practice-mountain.jpg */; };
 		96FD51D9CC42E2598F3BF48A /* PracticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937F466F186BBC2623E90259 /* PracticeView.swift */; };
-		97AA3B01D035BAEA2ED7C3D0 /* MindfulnessPractice.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 33B00F97ECB4ECE2F3DBD863 /* MindfulnessPractice.mp4 */; };
+		9DE4F8612FBFD850593A77D1 /* MindfulnessPractice.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 09129FCBBDB357EE6C322642 /* MindfulnessPractice.m4a */; };
 		B7E773E9A3F0A1374BDAE0DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 114A952DB9D0937C668A0A5A /* Assets.xcassets */; };
 		C17ACB18AFE8EB09EC70B476 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25590946B5356BC89234A709 /* Theme.swift */; };
+		D9F0BFE464C04E28D47D8269 /* practice-zen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FF322E9F22CFB3DDC1481DA4 /* practice-zen.jpg */; };
 		E2103BC1930EE82FEAA8E254 /* MindfulnessPracticeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21669192D2FD7A260EFFFF39 /* MindfulnessPracticeApp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		09129FCBBDB357EE6C322642 /* MindfulnessPractice.m4a */ = {isa = PBXFileReference; path = MindfulnessPractice.m4a; sourceTree = "<group>"; };
 		0BC0A126CBE12C3FB013BF2B /* PracticePlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticePlayerViewModel.swift; sourceTree = "<group>"; };
 		114A952DB9D0937C668A0A5A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		21669192D2FD7A260EFFFF39 /* MindfulnessPracticeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindfulnessPracticeApp.swift; sourceTree = "<group>"; };
 		25590946B5356BC89234A709 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
-		30746B68F689EC8D4CC17204 /* practice-mountain.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "practice-mountain.jpg"; sourceTree = "<group>"; };
-		33B00F97ECB4ECE2F3DBD863 /* MindfulnessPractice.mp4 */ = {isa = PBXFileReference; path = MindfulnessPractice.mp4; sourceTree = "<group>"; };
 		42BF2061D2C251A524F11E6A /* transcript.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = transcript.txt; sourceTree = "<group>"; };
 		937F466F186BBC2623E90259 /* PracticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeView.swift; sourceTree = "<group>"; };
 		F21AAC43ABA5C7BCD59ED183 /* MindfulnessPractice.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MindfulnessPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF322E9F22CFB3DDC1481DA4 /* practice-zen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "practice-zen.jpg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -42,8 +42,8 @@
 			isa = PBXGroup;
 			children = (
 				114A952DB9D0937C668A0A5A /* Assets.xcassets */,
-				33B00F97ECB4ECE2F3DBD863 /* MindfulnessPractice.mp4 */,
-				30746B68F689EC8D4CC17204 /* practice-mountain.jpg */,
+				09129FCBBDB357EE6C322642 /* MindfulnessPractice.m4a */,
+				FF322E9F22CFB3DDC1481DA4 /* practice-zen.jpg */,
 				42BF2061D2C251A524F11E6A /* transcript.txt */,
 			);
 			name = Resources;
@@ -128,8 +128,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7E773E9A3F0A1374BDAE0DE /* Assets.xcassets in Resources */,
-				97AA3B01D035BAEA2ED7C3D0 /* MindfulnessPractice.mp4 in Resources */,
-				58D37F5004586B81D5E48806 /* practice-mountain.jpg in Resources */,
+				9DE4F8612FBFD850593A77D1 /* MindfulnessPractice.m4a in Resources */,
+				D9F0BFE464C04E28D47D8269 /* practice-zen.jpg in Resources */,
 				25C682043697B3EB117788D6 /* transcript.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
