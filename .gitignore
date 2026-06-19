@@ -1,0 +1,24 @@
+# Secrets — never commit
+.env
+*.p8
+
+# Large media (GitHub 100MB limit; MP4 is reference / bundled-locally only)
+*.mp4
+*.MP4
+MindfulnessPractice/Resources/MindfulnessPractice.mp4
+
+# Xcode / build artifacts
+*.xcarchive
+DerivedData/
+build/
+.DS_Store
+*.xcuserstate
+xcuserdata/
+ExportOptions.plist
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Playwright
+.playwright-mcp/

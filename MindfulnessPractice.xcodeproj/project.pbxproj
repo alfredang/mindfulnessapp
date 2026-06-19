@@ -1,0 +1,333 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1BFD926BACB01103AB50C793 /* PracticePlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC0A126CBE12C3FB013BF2B /* PracticePlayerViewModel.swift */; };
+		25C682043697B3EB117788D6 /* transcript.txt in Resources */ = {isa = PBXBuildFile; fileRef = 42BF2061D2C251A524F11E6A /* transcript.txt */; };
+		58D37F5004586B81D5E48806 /* practice-mountain.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 30746B68F689EC8D4CC17204 /* practice-mountain.jpg */; };
+		96FD51D9CC42E2598F3BF48A /* PracticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937F466F186BBC2623E90259 /* PracticeView.swift */; };
+		97AA3B01D035BAEA2ED7C3D0 /* MindfulnessPractice.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 33B00F97ECB4ECE2F3DBD863 /* MindfulnessPractice.mp4 */; };
+		B7E773E9A3F0A1374BDAE0DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 114A952DB9D0937C668A0A5A /* Assets.xcassets */; };
+		C17ACB18AFE8EB09EC70B476 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25590946B5356BC89234A709 /* Theme.swift */; };
+		E2103BC1930EE82FEAA8E254 /* MindfulnessPracticeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21669192D2FD7A260EFFFF39 /* MindfulnessPracticeApp.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0BC0A126CBE12C3FB013BF2B /* PracticePlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticePlayerViewModel.swift; sourceTree = "<group>"; };
+		114A952DB9D0937C668A0A5A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		21669192D2FD7A260EFFFF39 /* MindfulnessPracticeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindfulnessPracticeApp.swift; sourceTree = "<group>"; };
+		25590946B5356BC89234A709 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		30746B68F689EC8D4CC17204 /* practice-mountain.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "practice-mountain.jpg"; sourceTree = "<group>"; };
+		33B00F97ECB4ECE2F3DBD863 /* MindfulnessPractice.mp4 */ = {isa = PBXFileReference; path = MindfulnessPractice.mp4; sourceTree = "<group>"; };
+		42BF2061D2C251A524F11E6A /* transcript.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = transcript.txt; sourceTree = "<group>"; };
+		937F466F186BBC2623E90259 /* PracticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeView.swift; sourceTree = "<group>"; };
+		F21AAC43ABA5C7BCD59ED183 /* MindfulnessPractice.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MindfulnessPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		40E477E8C3650D70B0998AEC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F21AAC43ABA5C7BCD59ED183 /* MindfulnessPractice.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5340B8A9ED1092180D5D3F4E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				114A952DB9D0937C668A0A5A /* Assets.xcassets */,
+				33B00F97ECB4ECE2F3DBD863 /* MindfulnessPractice.mp4 */,
+				30746B68F689EC8D4CC17204 /* practice-mountain.jpg */,
+				42BF2061D2C251A524F11E6A /* transcript.txt */,
+			);
+			name = Resources;
+			path = MindfulnessPractice/Resources;
+			sourceTree = "<group>";
+		};
+		A8DCED5BA14C1FBDCD968F30 = {
+			isa = PBXGroup;
+			children = (
+				5340B8A9ED1092180D5D3F4E /* Resources */,
+				B39029E75DCA65FD99846AD8 /* Sources */,
+				40E477E8C3650D70B0998AEC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B39029E75DCA65FD99846AD8 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				21669192D2FD7A260EFFFF39 /* MindfulnessPracticeApp.swift */,
+				0BC0A126CBE12C3FB013BF2B /* PracticePlayerViewModel.swift */,
+				937F466F186BBC2623E90259 /* PracticeView.swift */,
+				25590946B5356BC89234A709 /* Theme.swift */,
+			);
+			name = Sources;
+			path = MindfulnessPractice/Sources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		82471DEBF54321FB1DF380BE /* MindfulnessPractice */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E84A9C031DEB85296E171F32 /* Build configuration list for PBXNativeTarget "MindfulnessPractice" */;
+			buildPhases = (
+				49A67DE2D483FF2BE7D7CC6B /* Sources */,
+				6F9952C2067C99DBA6721644 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MindfulnessPractice;
+			packageProductDependencies = (
+			);
+			productName = MindfulnessPractice;
+			productReference = F21AAC43ABA5C7BCD59ED183 /* MindfulnessPractice.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D04B9A05C56DA9DDE43C1B93 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = 7E510A356BD71814CEDFD1AF /* Build configuration list for PBXProject "MindfulnessPractice" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = A8DCED5BA14C1FBDCD968F30;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 40E477E8C3650D70B0998AEC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				82471DEBF54321FB1DF380BE /* MindfulnessPractice */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6F9952C2067C99DBA6721644 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B7E773E9A3F0A1374BDAE0DE /* Assets.xcassets in Resources */,
+				97AA3B01D035BAEA2ED7C3D0 /* MindfulnessPractice.mp4 in Resources */,
+				58D37F5004586B81D5E48806 /* practice-mountain.jpg in Resources */,
+				25C682043697B3EB117788D6 /* transcript.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		49A67DE2D483FF2BE7D7CC6B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E2103BC1930EE82FEAA8E254 /* MindfulnessPracticeApp.swift in Sources */,
+				1BFD926BACB01103AB50C793 /* PracticePlayerViewModel.swift in Sources */,
+				96FD51D9CC42E2598F3BF48A /* PracticeView.swift in Sources */,
+				C17ACB18AFE8EB09EC70B476 /* Theme.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		269A9252E55E0762420F7153 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = MindfulnessPractice/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.alfredang.mindfulnesspractice;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		62A4D342C869CE1F61EC9966 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		981737BB62B33C610B485B08 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		BCEAB0E1F342CCAAF85DC783 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = MindfulnessPractice/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.alfredang.mindfulnesspractice;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7E510A356BD71814CEDFD1AF /* Build configuration list for PBXProject "MindfulnessPractice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				62A4D342C869CE1F61EC9966 /* Debug */,
+				981737BB62B33C610B485B08 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E84A9C031DEB85296E171F32 /* Build configuration list for PBXNativeTarget "MindfulnessPractice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCEAB0E1F342CCAAF85DC783 /* Debug */,
+				269A9252E55E0762420F7153 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D04B9A05C56DA9DDE43C1B93 /* Project object */;
+}
