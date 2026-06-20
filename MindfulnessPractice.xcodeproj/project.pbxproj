@@ -15,6 +15,7 @@
 		C17ACB18AFE8EB09EC70B476 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25590946B5356BC89234A709 /* Theme.swift */; };
 		D9F0BFE464C04E28D47D8269 /* practice-zen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FF322E9F22CFB3DDC1481DA4 /* practice-zen.jpg */; };
 		E2103BC1930EE82FEAA8E254 /* MindfulnessPracticeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21669192D2FD7A260EFFFF39 /* MindfulnessPracticeApp.swift */; };
+		FDEFE2328847CC70828BEB5B /* MusicPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250FA8660ABFF311E19592FB /* MusicPicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		0BC0A126CBE12C3FB013BF2B /* PracticePlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticePlayerViewModel.swift; sourceTree = "<group>"; };
 		114A952DB9D0937C668A0A5A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		21669192D2FD7A260EFFFF39 /* MindfulnessPracticeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindfulnessPracticeApp.swift; sourceTree = "<group>"; };
+		250FA8660ABFF311E19592FB /* MusicPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPicker.swift; sourceTree = "<group>"; };
 		25590946B5356BC89234A709 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		42BF2061D2C251A524F11E6A /* transcript.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = transcript.txt; sourceTree = "<group>"; };
 		937F466F186BBC2623E90259 /* PracticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeView.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				21669192D2FD7A260EFFFF39 /* MindfulnessPracticeApp.swift */,
+				250FA8660ABFF311E19592FB /* MusicPicker.swift */,
 				0BC0A126CBE12C3FB013BF2B /* PracticePlayerViewModel.swift */,
 				937F466F186BBC2623E90259 /* PracticeView.swift */,
 				25590946B5356BC89234A709 /* Theme.swift */,
@@ -142,6 +145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2103BC1930EE82FEAA8E254 /* MindfulnessPracticeApp.swift in Sources */,
+				FDEFE2328847CC70828BEB5B /* MusicPicker.swift in Sources */,
 				1BFD926BACB01103AB50C793 /* PracticePlayerViewModel.swift in Sources */,
 				96FD51D9CC42E2598F3BF48A /* PracticeView.swift in Sources */,
 				C17ACB18AFE8EB09EC70B476 /* Theme.swift in Sources */,
@@ -201,7 +205,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -266,7 +270,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;

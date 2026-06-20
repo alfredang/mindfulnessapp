@@ -1,9 +1,9 @@
 # Mindfulness
 
-A native iOS app for practicing mindfulness. It guides you through a single
-**"Awareness of the Breath"** meditation — a calming spoken session that plays locally on
-your iPhone with simple Start / Pause / Stop controls and a scrubber. No account, no network,
-no data collection.
+A native iOS app for practicing mindfulness — a **"Mindfulness Practice"** session with a calm,
+soothing female voice guiding your breath, playing locally on your iPhone. Choose your **session
+length**, optionally add **background music from your own library**, and use simple Start / Pause /
+Stop controls with a scrubber. No account, no network, no data collection.
 
 ![Mindfulness — practice screen](screenshot.png)
 
@@ -16,26 +16,29 @@ no data collection.
 ![XcodeGen](https://img.shields.io/badge/XcodeGen-project.yml-2C3E50)
 
 - **Swift 6 / SwiftUI** — single-screen declarative UI
-- **AVFoundation** — `AVPlayer` driving the bundled guided-session audio (`MindfulnessPractice.m4a`),
-  with a `.spokenAudio` audio session that ducks other audio
+- **AVFoundation** — `AVAudioPlayer` for the guided voice plus a looping background-music player
+- **MediaPlayer** — `MPMediaPickerController` to pick background music from the user's library
 - **XcodeGen** — the Xcode project is generated from [`project.yml`](project.yml)
+- **GitHub Actions** — auto-build + sign + submit to the App Store on every push to `main`
 
 ## Features
 
-- 🧘 Guided **Awareness of the Breath** meditation (~8.5 min)
+- 🧘 Guided **Mindfulness Practice** meditation with a soothing female voice
+- ⏱️ **Adjustable session length** — 5 / 10 / 15 / 20 minutes
+- 🎵 **Background music** — play a song from your own Music library, gently under the voice
 - ▶️ **Start / Pause / Stop** transport with a draggable progress scrubber
-- 🔊 Spoken-audio session that gently **ducks** music and other apps
 - 📱 **iPhone-only**, portrait, fully offline — nothing leaves the device
 
 ## Architecture
 
-The app is four Swift files under [`MindfulnessPractice/Sources/`](MindfulnessPractice/Sources/):
+The app is five Swift files under [`MindfulnessPractice/Sources/`](MindfulnessPractice/Sources/):
 
 | File | Role |
 |------|------|
 | `MindfulnessPracticeApp.swift` | `@main` entry; one `WindowGroup` → `PracticeView` |
-| `PracticeView.swift` | The full UI — header, scenic image, scrubber, transport buttons |
-| `PracticePlayerViewModel.swift` | `@MainActor` `ObservableObject` wrapping a single `AVPlayer`; publishes `isPlaying` / `currentTime` / `duration` |
+| `PracticeView.swift` | The full UI — title, zen image, length + music pills, scrubber, transport |
+| `PracticePlayerViewModel.swift` | `@MainActor` `ObservableObject` — voice `AVAudioPlayer` + looping music player; wall-clock session timer with auto-stop at the chosen length |
+| `MusicPicker.swift` | `MPMediaPickerController` wrapper to pick background music from the library |
 | `Theme.swift` | Central color palette (dark teal) |
 
 `PracticeView` mirrors the player's `currentTime` into a local scrub value, gated by an
@@ -56,17 +59,19 @@ xcodebuild -project MindfulnessPractice.xcodeproj \
   -destination 'platform=iOS Simulator,name=iPhone 17' build
 ```
 
-> **Audio:** the guided narration (`MindfulnessPractice.m4a`, ~1 MB) is committed. It was
+> **Audio:** the guided narration (`MindfulnessPractice.m4a`, ~1.3 MB) is committed. It was
 > generated from [`transcript.txt`](MindfulnessPractice/Resources/transcript.txt) with the
-> neural on-device TTS [kyutai `pocket-tts`](https://github.com/kyutai-labs/pocket-tts) (voice
-> "alba"), timed to the cue timestamps and softened (warm EQ + gentle reverb) for a soothing,
-> unhurried delivery.
+> neural on-device TTS [kyutai `pocket-tts`](https://github.com/kyutai-labs/pocket-tts) (female
+> voice "anna"), timed to the cue timestamps and slowed + warmed + softened (atempo, EQ, gentle
+> reverb) in ffmpeg for a calm, unhurried delivery.
 
-## App Store submission
+## App Store submission & CI/CD
 
-This repo bundles the project-level
-[`app-store-submission`](.claude/skills/app-store-submission/) skill for archiving, signing,
-and submitting the build to App Store Connect via the ASC API + Xcode CLI.
+This repo bundles two project-level skills:
+[`app-store-submission`](.claude/skills/app-store-submission/) (archive, sign, upload, and submit
+via the ASC API + Xcode CLI) and [`ios-auto-release`](.claude/skills/ios-auto-release/) — a GitHub
+Actions pipeline ([`.github/workflows/ios-release.yml`](.github/workflows/ios-release.yml)) that
+**auto-builds, signs, uploads, and submits to the App Store on every push to `main`**.
 
 ## Acknowledgements
 

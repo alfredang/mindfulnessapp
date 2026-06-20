@@ -4,14 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this app is
 
-A native iOS (iPhone) SwiftUI app for practicing mindfulness. It presents a single
-guided meditation — "Awareness of the Breath" — that plays a bundled audio track
-(`MindfulnessPractice.m4a`, ~1 MB, the soothing spoken voiceover) behind a still zen-garden
-image (`practice-zen.jpg`), with a scrubber and Start / Pause / Stop transport controls. The
-narration is generated from `MindfulnessPractice/Resources/transcript.txt` (timestamps →
-guidance text) with the neural on-device TTS [kyutai `pocket-tts`](https://github.com/kyutai-labs/pocket-tts)
-and assembled to match the cue timings. There is no login, no backend, and no data collection —
-everything ships in the bundle and plays locally.
+A native iOS (iPhone) SwiftUI app for practicing mindfulness. The single screen ("Mindfulness
+Practice") plays a bundled guided meditation audio track (`MindfulnessPractice.m4a`, ~1.3 MB,
+a soothing **female** spoken voiceover) behind a still zen-garden image (`practice-zen.jpg`),
+with a scrubber and Start / Pause / Stop transport. Two extra controls: a **session length**
+picker (5/10/15/20 min — drives auto-stop) and **Background Music** (pick a song from the user's
+Music library via `MPMediaPickerController`, looped quietly under the voice). The narration is
+generated from `MindfulnessPractice/Resources/transcript.txt` with the neural on-device TTS
+[kyutai `pocket-tts`](https://github.com/kyutai-labs/pocket-tts) (voice `anna`, slowed + warmed
++ reverb in ffmpeg for calm). No login, no backend, no data collection — everything plays locally.
 
 ## Build & run
 
@@ -33,23 +34,25 @@ third-party dependencies. Source of truth for version/build/bundle id is `projec
 
 ## Architecture
 
-Four Swift files under `MindfulnessPractice/Sources/`:
+Five Swift files under `MindfulnessPractice/Sources/`:
 
 - **MindfulnessPracticeApp.swift** — `@main` entry; one `WindowGroup` hosting `PracticeView`.
-- **PracticeView.swift** — the entire UI (header, full-bleed `practice-mountain.jpg`, time
-  scrubber, transport buttons). It owns a `@StateObject PracticePlayerViewModel` and mirrors
-  the player's `currentTime` into a local `scrubValue` so dragging the `Slider` doesn't fight
-  the periodic time updates (`isScrubbing` gate). All layout is driven by `Theme`.
-- **PracticePlayerViewModel.swift** — `@MainActor ObservableObject` wrapping a single
-  `AVPlayer` over the bundled MP4. Publishes `isPlaying` / `currentTime` / `duration`. Sets the
-  audio session to `.playback / .spokenAudio` with `.duckOthers`, observes playback via a
-  periodic time observer, and resets to 0 at end of track. `duration` is seeded to `509.37`
-  and then corrected once the asset's real duration loads.
+- **PracticeView.swift** — the entire UI (title header with no nav buttons, full-bleed
+  `practice-zen.jpg`, length + Background Music pills, scrubber, transport). Owns a
+  `@StateObject PracticePlayerViewModel`; mirrors `currentTime` into a local `scrubValue`
+  gated by `isScrubbing`. Presents `MusicPicker` in a `.sheet`. Layout driven by `Theme`.
+- **PracticePlayerViewModel.swift** — `@MainActor ObservableObject` with an `AVAudioPlayer`
+  for the bundled voice `.m4a` plus an optional looping `AVAudioPlayer` for background music
+  (volume 0.22). Session timing is wall-clock based (`anchorDate`/`anchorElapsed`) over a 0.2s
+  `Timer`, so a chosen `sessionLength` longer than the voice keeps music going to the end and
+  shorter cuts it off. `setSessionLength`, `setBackgroundMusic`, `clearBackgroundMusic`.
+- **MusicPicker.swift** — `UIViewControllerRepresentable` over `MPMediaPickerController`;
+  returns the picked item's `assetURL` (nil for non-downloaded DRM tracks → shows a hint).
+  Needs `NSAppleMusicUsageDescription` (set in `project.yml`).
 - **Theme.swift** — all colors (a dark teal palette). Change the look here, not inline.
 
-The MP4 is loaded by name from the bundle (`Bundle.main.url(forResource:"MindfulnessPractice"...)`)
-with a fallback to a `Resources/` subdirectory; if missing it `fatalError`s, so the resource
-must stay listed under `sources:` in `project.yml`.
+The voice `.m4a` is loaded by name from the bundle; if missing it `fatalError`s, so it must
+stay listed under `sources:` in `project.yml`.
 
 ## App Store submission
 
@@ -61,3 +64,12 @@ the repo root (template: `.claude/skills/app-store-submission/.env.example`). Th
 **iPhone-only** app (`TARGETED_DEVICE_FAMILY = 1`) with no account system, so the
 account-deletion (5.1.1(v)) rejection rule does not apply; App Store screenshots must be real
 captures of the practice screen.
+
+## CI/CD — auto-release on push
+
+Bundles the **`ios-auto-release`** skill at [.claude/skills/ios-auto-release/](.claude/skills/ios-auto-release/).
+`.github/workflows/ios-release.yml` (GitHub Actions, macOS) builds + signs + uploads + submits
+to App Store Connect on every push to `main` (code paths only; docs/CI/screenshot changes are
+ignored). It uses `scripts/ci_submit.py` and six repo secrets (ASC API key, dist `.p12`,
+provisioning profile). The app record + App Privacy + age rating are one-time manual setup; CI
+handles the rest. `CODE_SIGN_STYLE=Manual` with profile **"Mindfulness App Store"**.

@@ -7,7 +7,7 @@ settings:
   base:
     SWIFT_VERSION: "6.0"
     MARKETING_VERSION: "1.0"
-    CURRENT_PROJECT_VERSION: "1"
+    CURRENT_PROJECT_VERSION: "4"
 targets:
   MindfulnessPractice:
     type: application
@@ -25,10 +25,12 @@ targets:
     info:
       path: MindfulnessPractice/Info.plist
       properties:
-        CFBundleDisplayName: Mindfulness
+        CFBundleDisplayName: Tertiary Mindfulness
         CFBundleShortVersionString: "$(MARKETING_VERSION)"
         CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        CFBundleIconName: AppIcon
         ITSAppUsesNonExemptEncryption: false
+        NSAppleMusicUsageDescription: "Choose a song from your music library to play gently in the background during your meditation."
         UILaunchScreen: {}
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait

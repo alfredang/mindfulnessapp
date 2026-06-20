@@ -5,6 +5,7 @@ struct PracticeView: View {
     @StateObject private var viewModel = PracticePlayerViewModel()
     @State private var scrubValue: Double = 0
     @State private var isScrubbing = false
+    @State private var showingMusicPicker = false
 
     var body: some View {
         ZStack {
@@ -29,38 +30,25 @@ struct PracticeView: View {
             guard !isScrubbing else { return }
             scrubValue = newValue
         }
+        .sheet(isPresented: $showingMusicPicker) {
+            MusicPicker { title, url in
+                viewModel.setBackgroundMusic(title: title, url: url)
+            }
+            .ignoresSafeArea()
+        }
     }
 
     private var header: some View {
-        VStack(alignment: .leading, spacing: 18) {
-            HStack {
-                Button {
-                    viewModel.stop()
-                } label: {
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 28, weight: .semibold))
-                        .frame(width: 48, height: 48)
-                }
-                .accessibilityLabel("Stop practice")
-
-                Spacer()
-
-                Text("NEXT")
-                    .font(.system(.headline, design: .rounded))
-                    .foregroundStyle(Theme.ink)
-                    .opacity(0.9)
-            }
-
-            Text("Awareness of the Breath")
-                .font(.system(size: 33, weight: .regular, design: .rounded))
-                .lineLimit(2)
-                .minimumScaleFactor(0.76)
-                .foregroundStyle(Theme.ink)
-        }
-        .padding(.horizontal, 22)
-        .padding(.top, 10)
-        .padding(.bottom, 24)
-        .background(Theme.header)
+        Text("Mindfulness Practice")
+            .font(.system(size: 33, weight: .regular, design: .rounded))
+            .lineLimit(2)
+            .minimumScaleFactor(0.76)
+            .foregroundStyle(Theme.ink)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 22)
+            .padding(.top, 22)
+            .padding(.bottom, 24)
+            .background(Theme.header)
     }
 
     private var practiceImage: some View {
@@ -79,6 +67,8 @@ struct PracticeView: View {
 
     private var controls: some View {
         VStack(spacing: 18) {
+            optionsRow
+
             HStack(spacing: 14) {
                 Text(timeString(viewModel.currentTime))
                     .font(.system(.headline, design: .rounded))
@@ -88,17 +78,15 @@ struct PracticeView: View {
 
                 Slider(
                     value: $scrubValue,
-                    in: 0...max(viewModel.duration, 1),
+                    in: 0...max(viewModel.sessionLength, 1),
                     onEditingChanged: { editing in
                         isScrubbing = editing
-                        if !editing {
-                            viewModel.seek(to: scrubValue)
-                        }
+                        if !editing { viewModel.seek(to: scrubValue) }
                     }
                 )
                 .tint(Theme.progress)
 
-                Text("-\(timeString(max(viewModel.duration - viewModel.currentTime, 0)))")
+                Text("-\(timeString(max(viewModel.sessionLength - viewModel.currentTime, 0)))")
                     .font(.system(.headline, design: .rounded))
                     .monospacedDigit()
                     .foregroundStyle(Theme.ink)
@@ -106,20 +94,64 @@ struct PracticeView: View {
             }
 
             HStack(spacing: 28) {
-                controlButton(title: "Start", systemImage: "play.fill") {
-                    viewModel.start()
-                }
-
-                controlButton(title: "Pause", systemImage: "pause.fill") {
-                    viewModel.pause()
-                }
-                .opacity(viewModel.isPlaying ? 1 : 0.72)
-
-                controlButton(title: "Stop", systemImage: "stop.fill") {
-                    viewModel.stop()
-                }
+                controlButton(title: "Start", systemImage: "play.fill") { viewModel.start() }
+                controlButton(title: "Pause", systemImage: "pause.fill") { viewModel.pause() }
+                    .opacity(viewModel.isPlaying ? 1 : 0.72)
+                controlButton(title: "Stop", systemImage: "stop.fill") { viewModel.stop() }
             }
         }
+    }
+
+    private var optionsRow: some View {
+        VStack(spacing: 10) {
+            HStack(spacing: 12) {
+                Menu {
+                    ForEach(viewModel.lengthOptions, id: \.self) { option in
+                        Button {
+                            viewModel.setSessionLength(option)
+                        } label: {
+                            Label("\(Int(option / 60)) min",
+                                  systemImage: viewModel.sessionLength == option ? "checkmark" : "")
+                        }
+                    }
+                } label: {
+                    pill(icon: "timer", text: "\(Int(viewModel.sessionLength / 60)) min")
+                }
+
+                Button { showingMusicPicker = true } label: {
+                    pill(icon: "music.note",
+                         text: viewModel.musicTitle ?? "Background Music",
+                         trailing: viewModel.musicTitle != nil ? "xmark.circle.fill" : nil)
+                }
+                .simultaneousGesture(TapGesture().onEnded {
+                    // Tapping the little "x" clears the current track instead of opening the picker.
+                    if viewModel.musicTitle != nil { viewModel.clearBackgroundMusic() }
+                    else { showingMusicPicker = true }
+                })
+            }
+
+            if let musicError = viewModel.musicError {
+                Text(musicError)
+                    .font(.footnote)
+                    .foregroundStyle(Theme.mutedInk)
+                    .multilineTextAlignment(.center)
+            }
+        }
+    }
+
+    private func pill(icon: String, text: String, trailing: String? = nil) -> some View {
+        HStack(spacing: 7) {
+            Image(systemName: icon)
+            Text(text).lineLimit(1)
+            if let trailing { Image(systemName: trailing) }
+        }
+        .font(.system(.subheadline, design: .rounded))
+        .foregroundStyle(Theme.ink)
+        .padding(.horizontal, 14)
+        .padding(.vertical, 9)
+        .frame(maxWidth: .infinity)
+        .background(Theme.surface, in: Capsule())
+        .overlay(Capsule().strokeBorder(Color.white.opacity(0.18), lineWidth: 1))
     }
 
     private func controlButton(title: String, systemImage: String, action: @escaping () -> Void) -> some View {
@@ -143,10 +175,8 @@ struct PracticeView: View {
     }
 
     private func timeString(_ seconds: Double) -> String {
-        let totalSeconds = max(Int(seconds.rounded(.down)), 0)
-        let minutes = totalSeconds / 60
-        let seconds = totalSeconds % 60
-        return "\(minutes):" + String(format: "%02d", seconds)
+        let total = max(Int(seconds.rounded(.down)), 0)
+        return "\(total / 60):" + String(format: "%02d", total % 60)
     }
 }
 
