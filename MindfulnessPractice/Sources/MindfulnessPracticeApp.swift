@@ -4,7 +4,7 @@ import SwiftUI
 struct MindfulnessPracticeApp: App {
     var body: some Scene {
         WindowGroup {
-            PracticeView()
+            MainTabView()
         }
     }
 }

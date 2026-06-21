@@ -7,14 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0CEF8665638170BB2C521658 /* FeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2223B9744D7100B2A08644 /* FeedbackView.swift */; };
 		1BFD926BACB01103AB50C793 /* PracticePlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC0A126CBE12C3FB013BF2B /* PracticePlayerViewModel.swift */; };
 		25C682043697B3EB117788D6 /* transcript.txt in Resources */ = {isa = PBXBuildFile; fileRef = 42BF2061D2C251A524F11E6A /* transcript.txt */; };
+		31B917DC5284A68B334BD703 /* ZenAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB9FEDE57C7BDA98B36FF456 /* ZenAnimationView.swift */; };
 		96FD51D9CC42E2598F3BF48A /* PracticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937F466F186BBC2623E90259 /* PracticeView.swift */; };
 		9DE4F8612FBFD850593A77D1 /* MindfulnessPractice.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 09129FCBBDB357EE6C322642 /* MindfulnessPractice.m4a */; };
+		AEA7C9CD6D10DC11DDBA6B16 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B81482C67ABE84D5304FADF /* AboutView.swift */; };
 		B7E773E9A3F0A1374BDAE0DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 114A952DB9D0937C668A0A5A /* Assets.xcassets */; };
 		C17ACB18AFE8EB09EC70B476 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25590946B5356BC89234A709 /* Theme.swift */; };
 		D9F0BFE464C04E28D47D8269 /* practice-zen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FF322E9F22CFB3DDC1481DA4 /* practice-zen.jpg */; };
 		E2103BC1930EE82FEAA8E254 /* MindfulnessPracticeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21669192D2FD7A260EFFFF39 /* MindfulnessPracticeApp.swift */; };
+		E6571B0EF50B43EBCD65C257 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3230A96F94975ADF9D9F14 /* MainTabView.swift */; };
 		FDEFE2328847CC70828BEB5B /* MusicPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250FA8660ABFF311E19592FB /* MusicPicker.swift */; };
 /* End PBXBuildFile section */
 
@@ -26,7 +30,11 @@
 		250FA8660ABFF311E19592FB /* MusicPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPicker.swift; sourceTree = "<group>"; };
 		25590946B5356BC89234A709 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		42BF2061D2C251A524F11E6A /* transcript.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = transcript.txt; sourceTree = "<group>"; };
+		4B81482C67ABE84D5304FADF /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		8F3230A96F94975ADF9D9F14 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		937F466F186BBC2623E90259 /* PracticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeView.swift; sourceTree = "<group>"; };
+		AC2223B9744D7100B2A08644 /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
+		DB9FEDE57C7BDA98B36FF456 /* ZenAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZenAnimationView.swift; sourceTree = "<group>"; };
 		F21AAC43ABA5C7BCD59ED183 /* MindfulnessPractice.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MindfulnessPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF322E9F22CFB3DDC1481DA4 /* practice-zen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "practice-zen.jpg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -64,11 +72,15 @@
 		B39029E75DCA65FD99846AD8 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				4B81482C67ABE84D5304FADF /* AboutView.swift */,
+				AC2223B9744D7100B2A08644 /* FeedbackView.swift */,
+				8F3230A96F94975ADF9D9F14 /* MainTabView.swift */,
 				21669192D2FD7A260EFFFF39 /* MindfulnessPracticeApp.swift */,
 				250FA8660ABFF311E19592FB /* MusicPicker.swift */,
 				0BC0A126CBE12C3FB013BF2B /* PracticePlayerViewModel.swift */,
 				937F466F186BBC2623E90259 /* PracticeView.swift */,
 				25590946B5356BC89234A709 /* Theme.swift */,
+				DB9FEDE57C7BDA98B36FF456 /* ZenAnimationView.swift */,
 			);
 			name = Sources;
 			path = MindfulnessPractice/Sources;
@@ -144,11 +156,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEA7C9CD6D10DC11DDBA6B16 /* AboutView.swift in Sources */,
+				0CEF8665638170BB2C521658 /* FeedbackView.swift in Sources */,
+				E6571B0EF50B43EBCD65C257 /* MainTabView.swift in Sources */,
 				E2103BC1930EE82FEAA8E254 /* MindfulnessPracticeApp.swift in Sources */,
 				FDEFE2328847CC70828BEB5B /* MusicPicker.swift in Sources */,
 				1BFD926BACB01103AB50C793 /* PracticePlayerViewModel.swift in Sources */,
 				96FD51D9CC42E2598F3BF48A /* PracticeView.swift in Sources */,
 				C17ACB18AFE8EB09EC70B476 /* Theme.swift in Sources */,
+				31B917DC5284A68B334BD703 /* ZenAnimationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

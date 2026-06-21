@@ -1,5 +1,4 @@
 import SwiftUI
-import UIKit
 
 struct PracticeView: View {
     @StateObject private var viewModel = PracticePlayerViewModel()
@@ -9,21 +8,25 @@ struct PracticeView: View {
 
     var body: some View {
         ZStack {
-            Theme.background.ignoresSafeArea()
+            ZenAnimationView()
+                .ignoresSafeArea()
 
             VStack(spacing: 0) {
                 header
-
-                practiceImage
-                    .frame(maxWidth: .infinity)
-                    .aspectRatio(1180.0 / 1080.0, contentMode: .fit)
-                    .clipped()
 
                 Spacer(minLength: 0)
 
                 controls
                     .padding(.horizontal, 22)
-                    .padding(.bottom, 24)
+                    .padding(.top, 18)
+                    .padding(.bottom, 18)
+                    .background(
+                        LinearGradient(
+                            colors: [.clear, Theme.auraBottom.opacity(0.85)],
+                            startPoint: .top, endPoint: .bottom
+                        )
+                        .ignoresSafeArea(edges: .bottom)
+                    )
             }
         }
         .onChange(of: viewModel.currentTime) { _, newValue in
@@ -39,30 +42,21 @@ struct PracticeView: View {
     }
 
     private var header: some View {
-        Text("Mindfulness Practice")
-            .font(.system(size: 33, weight: .regular, design: .rounded))
-            .lineLimit(2)
-            .minimumScaleFactor(0.76)
-            .foregroundStyle(Theme.ink)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 22)
-            .padding(.top, 22)
-            .padding(.bottom, 24)
-            .background(Theme.header)
-    }
-
-    private var practiceImage: some View {
-        Group {
-            if let url = Bundle.main.url(forResource: "practice-zen", withExtension: "jpg"),
-               let image = UIImage(contentsOfFile: url.path) {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill()
-            } else {
-                Rectangle()
-                    .fill(Theme.surface)
-            }
+        VStack(alignment: .leading, spacing: 4) {
+            Text("Mindfulness Practice")
+                .font(.system(size: 33, weight: .regular, design: .rounded))
+                .lineLimit(2)
+                .minimumScaleFactor(0.76)
+                .foregroundStyle(Theme.ink)
+            Text("Breathe with the light")
+                .font(.system(.subheadline, design: .rounded))
+                .foregroundStyle(Theme.mutedInk)
         }
+        .shadow(color: .black.opacity(0.35), radius: 10, y: 2)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, 22)
+        .padding(.top, 18)
+        .padding(.bottom, 12)
     }
 
     private var controls: some View {
