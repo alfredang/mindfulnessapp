@@ -6,8 +6,8 @@ options:
 settings:
   base:
     SWIFT_VERSION: "6.0"
-    MARKETING_VERSION: "1.0"
-    CURRENT_PROJECT_VERSION: "4"
+    MARKETING_VERSION: "1.1"
+    CURRENT_PROJECT_VERSION: "5"
 targets:
   MindfulnessPractice:
     type: application
@@ -18,9 +18,7 @@ targets:
         TARGETED_DEVICE_FAMILY: "1"
     sources:
       - path: MindfulnessPractice/Sources
-      - path: MindfulnessPractice/Resources/MindfulnessPractice.m4a
-      - path: MindfulnessPractice/Resources/practice-zen.jpg
-      - path: MindfulnessPractice/Resources/transcript.txt
+      - path: MindfulnessPractice/Resources/audio
       - path: MindfulnessPractice/Resources/Assets.xcassets
     info:
       path: MindfulnessPractice/Info.plist
@@ -37,3 +35,5 @@ targets:
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: false
         UIRequiresFullScreen: true
+        UIBackgroundModes:
+          - audio

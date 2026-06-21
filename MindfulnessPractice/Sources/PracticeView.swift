@@ -1,67 +1,137 @@
 import SwiftUI
 
 struct PracticeView: View {
+    @EnvironmentObject private var settings: PracticeSettings
     @StateObject private var viewModel = PracticePlayerViewModel()
     @State private var scrubValue: Double = 0
     @State private var isScrubbing = false
-    @State private var showingMusicPicker = false
+
+    private var session: MeditationSession { settings.session }
 
     var body: some View {
-        ZStack {
-            ZenAnimationView()
-                .ignoresSafeArea()
+        NavigationStack {
+            ZStack {
+                MoodAnimationView().ignoresSafeArea()
 
-            VStack(spacing: 0) {
-                header
-
-                Spacer(minLength: 0)
-
-                controls
-                    .padding(.horizontal, 22)
-                    .padding(.top, 18)
-                    .padding(.bottom, 18)
-                    .background(
-                        LinearGradient(
-                            colors: [.clear, Theme.auraBottom.opacity(0.85)],
-                            startPoint: .top, endPoint: .bottom
+                VStack(spacing: 0) {
+                    header
+                    Spacer(minLength: 0)
+                    controls
+                        .padding(.horizontal, 22)
+                        .padding(.top, 18)
+                        .padding(.bottom, 18)
+                        .background(
+                            LinearGradient(colors: [.clear, Theme.auraBottom.opacity(0.85)],
+                                           startPoint: .top, endPoint: .bottom)
+                                .ignoresSafeArea(edges: .bottom)
                         )
-                        .ignoresSafeArea(edges: .bottom)
-                    )
+                }
             }
+            .toolbar { topNav }
+            .toolbarBackground(.hidden, for: .navigationBar)
+            .navigationBarTitleDisplayMode(.inline)
         }
+        .onAppear { reloadAudio(); applyMusic() }
+        .onChange(of: settings.sessionId) { _, _ in reloadAudio() }
+        .onChange(of: settings.voiceId) { _, _ in reloadAudio() }
+        .onChange(of: settings.sessionLength) { _, new in viewModel.setPreferredLength(new) }
+        .onChange(of: settings.musicEnabled) { _, _ in applyMusic() }
+        .onChange(of: settings.musicPersistentID) { _, _ in applyMusic() }
+        .onChange(of: settings.musicVolume) { _, new in viewModel.setMusicVolume(new) }
         .onChange(of: viewModel.currentTime) { _, newValue in
             guard !isScrubbing else { return }
             scrubValue = newValue
         }
-        .sheet(isPresented: $showingMusicPicker) {
-            MusicPicker { title, url in
-                viewModel.setBackgroundMusic(title: title, url: url)
+    }
+
+    // MARK: - Top navigation (session • length • music toggle)
+
+    @ToolbarContentBuilder
+    private var topNav: some ToolbarContent {
+        ToolbarItem(placement: .topBarLeading) {
+            Menu {
+                Picker("Session", selection: $settings.sessionId) {
+                    ForEach(Catalog.sessions) { s in
+                        Text("\(s.title) · \(s.subtitle)").tag(s.id)
+                    }
+                }
+            } label: {
+                Label(session.title, systemImage: "square.stack.3d.up.fill")
+                    .font(.system(.subheadline, design: .rounded))
+                    .lineLimit(1)
             }
-            .ignoresSafeArea()
+            .tint(Theme.ink)
+        }
+
+        ToolbarItemGroup(placement: .topBarTrailing) {
+            lengthControl
+            Button {
+                settings.musicEnabled.toggle()
+            } label: {
+                Image(systemName: settings.musicEnabled ? "speaker.wave.2.fill" : "speaker.slash.fill")
+            }
+            .tint(settings.musicEnabled ? Theme.accent : Theme.mutedInk)
+            .accessibilityLabel(settings.musicEnabled ? "Background music on" : "Background music off")
         }
     }
 
+    @ViewBuilder
+    private var lengthControl: some View {
+        if case .flexible(let options) = session.lengthMode {
+            Menu {
+                Picker("Length", selection: $settings.sessionLength) {
+                    ForEach(options, id: \.self) { opt in
+                        Text("\(Int(opt / 60)) min").tag(opt)
+                    }
+                }
+            } label: {
+                Label("\(Int(viewModel.sessionLength / 60)) min", systemImage: "timer")
+                    .font(.system(.subheadline, design: .rounded))
+            }
+            .tint(Theme.ink)
+        } else {
+            Label("\(Int((viewModel.sessionLength / 60).rounded())) min", systemImage: "timer")
+                .font(.system(.subheadline, design: .rounded))
+                .foregroundStyle(Theme.mutedInk)
+        }
+    }
+
+    // MARK: - Header
+
     private var header: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("Mindfulness Practice")
+            Text(session.title)
                 .font(.system(size: 33, weight: .regular, design: .rounded))
                 .lineLimit(2)
                 .minimumScaleFactor(0.76)
                 .foregroundStyle(Theme.ink)
-            Text("Breathe with the light")
+            Text(session.subtitle)
                 .font(.system(.subheadline, design: .rounded))
                 .foregroundStyle(Theme.mutedInk)
         }
         .shadow(color: .black.opacity(0.35), radius: 10, y: 2)
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 22)
-        .padding(.top, 18)
+        .padding(.top, 8)
         .padding(.bottom, 12)
     }
 
+    // MARK: - Transport
+
     private var controls: some View {
         VStack(spacing: 18) {
-            optionsRow
+            if viewModel.audioMissing {
+                Text("This voice isn’t available for this session yet.")
+                    .font(.footnote)
+                    .foregroundStyle(Theme.mutedInk)
+                    .multilineTextAlignment(.center)
+            }
+            if settings.musicEnabled, settings.musicTitle == nil {
+                Text("Choose a song in Settings to play under your practice.")
+                    .font(.footnote)
+                    .foregroundStyle(Theme.mutedInk)
+                    .multilineTextAlignment(.center)
+            }
 
             HStack(spacing: 14) {
                 Text(timeString(viewModel.currentTime))
@@ -70,15 +140,12 @@ struct PracticeView: View {
                     .foregroundStyle(Theme.ink)
                     .frame(width: 58, alignment: .leading)
 
-                Slider(
-                    value: $scrubValue,
-                    in: 0...max(viewModel.sessionLength, 1),
-                    onEditingChanged: { editing in
-                        isScrubbing = editing
-                        if !editing { viewModel.seek(to: scrubValue) }
-                    }
-                )
-                .tint(Theme.progress)
+                Slider(value: $scrubValue, in: 0...max(viewModel.sessionLength, 1),
+                       onEditingChanged: { editing in
+                           isScrubbing = editing
+                           if !editing { viewModel.seek(to: scrubValue) }
+                       })
+                    .tint(Theme.progress)
 
                 Text("-\(timeString(max(viewModel.sessionLength - viewModel.currentTime, 0)))")
                     .font(.system(.headline, design: .rounded))
@@ -89,6 +156,7 @@ struct PracticeView: View {
 
             HStack(spacing: 28) {
                 controlButton(title: "Start", systemImage: "play.fill") { viewModel.start() }
+                    .disabled(viewModel.audioMissing)
                 controlButton(title: "Pause", systemImage: "pause.fill") { viewModel.pause() }
                     .opacity(viewModel.isPlaying ? 1 : 0.72)
                 controlButton(title: "Stop", systemImage: "stop.fill") { viewModel.stop() }
@@ -96,56 +164,17 @@ struct PracticeView: View {
         }
     }
 
-    private var optionsRow: some View {
-        VStack(spacing: 10) {
-            HStack(spacing: 12) {
-                Menu {
-                    ForEach(viewModel.lengthOptions, id: \.self) { option in
-                        Button {
-                            viewModel.setSessionLength(option)
-                        } label: {
-                            Label("\(Int(option / 60)) min",
-                                  systemImage: viewModel.sessionLength == option ? "checkmark" : "")
-                        }
-                    }
-                } label: {
-                    pill(icon: "timer", text: "\(Int(viewModel.sessionLength / 60)) min")
-                }
+    // MARK: - Wiring
 
-                Button { showingMusicPicker = true } label: {
-                    pill(icon: "music.note",
-                         text: viewModel.musicTitle ?? "Background Music",
-                         trailing: viewModel.musicTitle != nil ? "xmark.circle.fill" : nil)
-                }
-                .simultaneousGesture(TapGesture().onEnded {
-                    // Tapping the little "x" clears the current track instead of opening the picker.
-                    if viewModel.musicTitle != nil { viewModel.clearBackgroundMusic() }
-                    else { showingMusicPicker = true }
-                })
-            }
-
-            if let musicError = viewModel.musicError {
-                Text(musicError)
-                    .font(.footnote)
-                    .foregroundStyle(Theme.mutedInk)
-                    .multilineTextAlignment(.center)
-            }
-        }
+    private func reloadAudio() {
+        viewModel.load(session: settings.session, voice: settings.voice,
+                       preferredLength: settings.sessionLength)
+        applyMusic()
     }
 
-    private func pill(icon: String, text: String, trailing: String? = nil) -> some View {
-        HStack(spacing: 7) {
-            Image(systemName: icon)
-            Text(text).lineLimit(1)
-            if let trailing { Image(systemName: trailing) }
-        }
-        .font(.system(.subheadline, design: .rounded))
-        .foregroundStyle(Theme.ink)
-        .padding(.horizontal, 14)
-        .padding(.vertical, 9)
-        .frame(maxWidth: .infinity)
-        .background(Theme.surface, in: Capsule())
-        .overlay(Capsule().strokeBorder(Color.white.opacity(0.18), lineWidth: 1))
+    private func applyMusic() {
+        viewModel.applyMusic(enabled: settings.musicEnabled, volume: settings.musicVolume,
+                             title: settings.musicTitle, persistentID: settings.musicPersistentID)
     }
 
     private func controlButton(title: String, systemImage: String, action: @escaping () -> Void) -> some View {
@@ -156,7 +185,6 @@ struct PracticeView: View {
                     .frame(width: 62, height: 62)
                     .background(Theme.surface, in: Circle())
                     .overlay(Circle().strokeBorder(Color.white.opacity(0.18), lineWidth: 1))
-
                 Text(title)
                     .font(.system(.subheadline, design: .rounded))
                     .foregroundStyle(Theme.mutedInk)
@@ -175,5 +203,5 @@ struct PracticeView: View {
 }
 
 #Preview {
-    PracticeView()
+    PracticeView().environmentObject(PracticeSettings())
 }

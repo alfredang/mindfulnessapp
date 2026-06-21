@@ -4,15 +4,36 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this app is
 
-A native iOS (iPhone) SwiftUI app for practicing mindfulness. The single screen ("Mindfulness
-Practice") plays a bundled guided meditation audio track (`MindfulnessPractice.m4a`, ~1.3 MB,
-a soothing **female** spoken voiceover) behind a still zen-garden image (`practice-zen.jpg`),
-with a scrubber and Start / Pause / Stop transport. Two extra controls: a **session length**
-picker (5/10/15/20 min — drives auto-stop) and **Background Music** (pick a song from the user's
-Music library via `MPMediaPickerController`, looped quietly under the voice). The narration is
-generated from `MindfulnessPractice/Resources/transcript.txt` with the neural on-device TTS
-[kyutai `pocket-tts`](https://github.com/kyutai-labs/pocket-tts) (voice `anna`, slowed + warmed
-+ reverb in ffmpeg for calm). No login, no backend, no data collection — everything plays locally.
+A native iOS (iPhone) SwiftUI app for practicing mindfulness. The **Practice** tab plays a
+bundled guided-meditation voiceover behind a generative "aurora" backdrop (`MoodAnimationView`),
+with a scrubber and Start / Pause / Stop transport. Audio **continues when the phone locks / the
+app is backgrounded** (`UIBackgroundModes: audio`); playback is scheduled on the audio-device
+clock (`play(atTime:)`) so it never depends on a foreground `Timer`.
+
+There are **3 guided sessions × 4 voices** (16 bundled `.m4a` files in `Resources/audio/`):
+
+- Sessions: `original` ("Mindfulness Practice", **flexible** 5/10/15/20 min), `awareness10`
+  (Trinh Mai, ~8 min, fixed) and `awareness5` (Heidi, ~5 min, fixed). See `Catalog.swift`.
+- Voices: `en-f` (English female, neural), `en-m` (English male, neural), `zh-f` (中文 female,
+  Apple TTS), `zh-m` (中文 male, Apple TTS).
+
+The **flexible** session uses two clips per voice (`<id>-<voice>-intro` + `-outro`); the app
+schedules a variable silence between them so the closing "wake-up" always lands exactly at the
+chosen length. **Fixed** sessions are a single pre-paced clip (length = the file's duration).
+
+Top nav (Practice screen): session picker, length picker (flexible only), and a background-music
+on/off toggle. The **Settings** tab holds voice selection and background-music config (pick a
+song from the Music library via `MPMediaPickerController`, volume — default 50%, persisted by
+`MPMediaItem.persistentID`). No login, no backend, no data collection — everything plays locally.
+
+### Regenerating the audio
+
+`scripts/generate_audio.py` builds the whole `Resources/audio/` matrix (resumable; skips existing
+files). English uses [kyutai `pocket-tts`](https://github.com/kyutai-labs/pocket-tts) — female is
+the original `anna` timbre (`original-en-f` is re-paced from the old `MindfulnessPractice.m4a`;
+new scripts clone it), male is cloned from a `say` reference. Chinese uses macOS `say` (Tingting /
+Eddy) with translations embedded in the script. Calming polish (slow + warm + reverb) is applied
+in ffmpeg. Requires `pocket-tts`, `ffmpeg`, and macOS `say`.
 
 ## Build & run
 
@@ -34,25 +55,34 @@ third-party dependencies. Source of truth for version/build/bundle id is `projec
 
 ## Architecture
 
-Five Swift files under `MindfulnessPractice/Sources/`:
+Swift files under `MindfulnessPractice/Sources/`:
 
-- **MindfulnessPracticeApp.swift** — `@main` entry; one `WindowGroup` hosting `PracticeView`.
-- **PracticeView.swift** — the entire UI (title header with no nav buttons, full-bleed
-  `practice-zen.jpg`, length + Background Music pills, scrubber, transport). Owns a
-  `@StateObject PracticePlayerViewModel`; mirrors `currentTime` into a local `scrubValue`
-  gated by `isScrubbing`. Presents `MusicPicker` in a `.sheet`. Layout driven by `Theme`.
-- **PracticePlayerViewModel.swift** — `@MainActor ObservableObject` with an `AVAudioPlayer`
-  for the bundled voice `.m4a` plus an optional looping `AVAudioPlayer` for background music
-  (volume 0.22). Session timing is wall-clock based (`anchorDate`/`anchorElapsed`) over a 0.2s
-  `Timer`, so a chosen `sessionLength` longer than the voice keeps music going to the end and
-  shorter cuts it off. `setSessionLength`, `setBackgroundMusic`, `clearBackgroundMusic`.
-- **MusicPicker.swift** — `UIViewControllerRepresentable` over `MPMediaPickerController`;
-  returns the picked item's `assetURL` (nil for non-downloaded DRM tracks → shows a hint).
-  Needs `NSAppleMusicUsageDescription` (set in `project.yml`).
-- **Theme.swift** — all colors (a dark teal palette). Change the look here, not inline.
+- **MindfulnessPracticeApp.swift** — `@main` entry; one `WindowGroup` hosting `MainTabView`.
+- **MainTabView.swift** — bottom-tab nav (Practice / Settings / Feedback / About). Owns the
+  single `@StateObject PracticeSettings` and injects it as an `.environmentObject`.
+- **Catalog.swift** — the static data model: `MeditationSession` (with `SessionLengthMode`
+  `.flexible`/`.fixed`) and `Voice`, plus the `Catalog` lists. Audio is resolved by name here.
+- **PracticeSettings.swift** — `@MainActor ObservableObject` persisting all user choices
+  (session, voice, length, music enabled/volume/title/persistentID) to `UserDefaults`.
+- **PracticeView.swift** — Practice UI: top-nav controls (session, length, music toggle),
+  header, the `MoodAnimationView` backdrop, scrubber + transport. Reacts to settings via
+  `.onChange` → `viewModel.load(...)` / `applyMusic(...)`.
+- **PracticePlayerViewModel.swift** — `@MainActor ObservableObject`. Loads the intro (+ optional
+  outro) `AVAudioPlayer` for the current session/voice and an optional looping music player.
+  `schedule(from:)` starts every clip on the shared **device clock** so the session (incl. the
+  scheduled outro) survives backgrounding; a 0.2s `Timer` only drives the on-screen scrubber.
+  Handles audio-session interruptions (auto-pause / resume). `musicLevel` scales the 0…1 user
+  volume into a quiet ceiling (×0.45).
+- **SettingsView.swift** — voice picker + background-music config (song, volume, enable/remove).
+- **MusicPicker.swift** — `MPMediaPickerController` wrapper returning title + `persistentID` +
+  `assetURL`; `MusicLibrary.assetURL(forPersistentID:)` restores a saved song. Needs
+  `NSAppleMusicUsageDescription`.
+- **MoodAnimationView.swift** — generative aurora backdrop (drifting colour blobs + rising motes).
+- **Theme.swift** — all colors (a zen sage palette). Change the look here, not inline.
 
-The voice `.m4a` is loaded by name from the bundle; if missing it `fatalError`s, so it must
-stay listed under `sources:` in `project.yml`.
+Audio is loaded by name from the bundle (missing → `audioMissing`, the UI degrades gracefully,
+no `fatalError`). The `Resources/audio` folder must stay listed under `sources:` in `project.yml`;
+**re-run `xcodegen generate` after adding/removing audio files** so the new files are referenced.
 
 ## App Store submission
 
