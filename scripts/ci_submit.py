@@ -27,8 +27,8 @@ EDITABLE = {"PREPARE_FOR_SUBMISSION", "DEVELOPER_REJECTED", "REJECTED",
             "METADATA_REJECTED", "INVALID_BINARY", "WAITING_FOR_REVIEW"}
 
 # Once a version has reached the store (approved / live / pending release), the next
-# push must ship a NEW version number. Any other state means the latest version is still
-# pending (draft, in/awaiting review, rejected) and CI overwrites it in place.
+# release must ship a NEW version number. Any other state means the latest version is
+# still pending (draft, in/awaiting review, rejected) and CI overwrites it in place.
 RELEASED = {"READY_FOR_SALE", "PENDING_DEVELOPER_RELEASE", "PENDING_APPLE_RELEASE",
             "REPLACED_WITH_NEW_VERSION", "REMOVED_FROM_SALE",
             "PROCESSING_FOR_APP_STORE", "PENDING_CONTRACT", "PREORDER_READY_FOR_SALE"}
@@ -106,6 +106,9 @@ def bump(s):
 
 
 def cmd_next_version(_):
+    # Decide the next version by checking the CURRENT (latest) version's App Store state:
+    #   live / released  -> ship the NEXT version   (e.g. 1.0 -> 1.1)
+    #   still pending / under review / rejected -> reuse the SAME number and overwrite it
     tok = token(); aid = app_id(tok)
     vs = versions(tok, aid)
     if not vs:
@@ -113,13 +116,12 @@ def cmd_next_version(_):
     latest = max(vs, key=lambda v: vkey(v["attributes"]["versionString"]))
     state = latest["attributes"]["appStoreState"]
     vstr = latest["attributes"]["versionString"]
-    # Live/released -> bump to the next version; still pending -> overwrite it.
     print(bump(vstr) if state in RELEASED else vstr)
 
 
 def cmd_wait_build(a):
     tok = token(); aid = app_id(tok)
-    for _ in range(60):
+    for _ in range(90):  # ~30 min — App Store processing is sometimes slow to index a build
         s, d = jget("GET", f"/v1/builds?filter[app]={aid}&sort=-uploadedDate&limit=10", tok)
         match = [b for b in d.get("data", []) if str(b["attributes"]["version"]) == str(a.build)]
         if match:
@@ -279,6 +281,24 @@ def ensure_version(tok, aid, target, screenshots_dir):
                           "attributes": {"platform": "IOS", "versionString": target, "releaseType": "AFTER_APPROVAL"},
                           "relationships": {"app": {"data": {"type": "apps", "id": aid}}}}}, tok)
     if s >= 300:
+        # An app can't hold two un-released versions. If one already exists and is editable
+        # (or sitting in review), repurpose it as `target` rather than creating a duplicate —
+        # this is the "existing app in App Store Connect -> update to a new version" path.
+        cand = next((v for v in vs if v["attributes"]["appStoreState"] in EDITABLE), None)
+        if cand:
+            cancel_active(tok, aid)            # release any in-review hold so the string is editable
+            cid, cur = cand["id"], cand["attributes"]["versionString"]
+            for _ in range(8):
+                rs, rb = call("PATCH", f"/v1/appStoreVersions/{cid}",
+                              {"data": {"type": "appStoreVersions", "id": cid,
+                                        "attributes": {"versionString": target}}}, tok)
+                if rs < 300:
+                    print(f"repurposed existing version {cur} -> {target}", flush=True)
+                    return cid, False
+                if rs == 409:                  # cancel is async and still holds the version
+                    time.sleep(5); continue
+                break
+            sys.exit(f"could not update existing version to {target}: {rb[:300]}")
         sys.exit(f"create version {target} failed: {b[:300]}")
     vid = json.loads(b)["data"]["id"]
     print(f"created App Store version {target}", flush=True)

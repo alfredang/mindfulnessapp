@@ -8,11 +8,15 @@ name: iOS release
 on:
   push:
     branches: [main]
-    paths-ignore:
-      - "**.md"
-      - ".github/**"
-      - "scripts/**"
-      - "ci/screenshots/**"
+    # Only release when the app itself changes — docs, CI scripts, skills, screenshots,
+    # README, etc. never trigger a build. (Use the manual run below to force one.)
+    paths:
+      - "MindfulnessPractice/Sources/**"
+      - "MindfulnessPractice/Resources/**"
+      - "MindfulnessPractice/Info.plist"
+      - "MindfulnessPractice.xcodeproj/**"
+      - "project.yml"
+      - "ExportOptions.plist"
   workflow_dispatch:
 
 concurrency:
